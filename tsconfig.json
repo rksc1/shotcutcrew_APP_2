@@ -3,12 +3,25 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": ["./src/*"],
-      "@app/*": ["./app/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@app/*": [
+        "./app/*"
+      ]
     },
     "plugins": [
-      { "name": "typescript-plugin-css-modules" }
+      {
+        "name": "typescript-plugin-css-modules"
+      }
     ]
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.d.ts", "expo-env.d.ts", "nativewind-env.d.ts"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.d.ts",
+    "expo-env.d.ts",
+    "nativewind-env.d.ts",
+    ".expo/types/**/*.ts"
+  ]
 }

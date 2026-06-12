@@ -97,7 +97,10 @@ export default function CreatorProjectDetail() {
             <Text className="text-text-primary font-inter-semibold text-base">Client</Text>
             <Text className="text-text-muted font-inter text-sm">ShotcutCrew Assured</Text>
           </View>
-          <TouchableOpacity className="w-10 h-10 rounded-full bg-dark-700 items-center justify-center border border-surface-border">
+          <TouchableOpacity 
+            className="w-10 h-10 rounded-full bg-dark-700 items-center justify-center border border-surface-border"
+            onPress={() => router.push(`/(creator)/projects/${id}/chat`)}
+          >
             <Text className="text-text-muted text-lg">💬</Text>
           </TouchableOpacity>
         </View>
@@ -138,7 +141,7 @@ export default function CreatorProjectDetail() {
             <Text className="text-text-muted font-inter text-sm text-center">
               Submit your work proofs (watermarked) when ready for client review.
             </Text>
-            <Button variant="primary" size="lg" fullWidth onPress={() => {}}>
+            <Button variant="primary" size="lg" fullWidth onPress={() => router.push(`/(creator)/projects/${id}/work-proof`)}>
               Upload Work Proof
             </Button>
           </View>

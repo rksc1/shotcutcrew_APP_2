@@ -18,7 +18,7 @@ export default function BookStep1() {
         totalSteps={totalSteps}
         title="What are you shooting?"
         subtitle="Select the type of event or project"
-        onBack={() => router.push("/(client)/")}
+        onBack={() => router.replace("/(client)")}
       />
 
       <ScrollView

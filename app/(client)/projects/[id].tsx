@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { projectsApi } from "@/api/projects";
 import { formatCurrency, formatDate } from "@/utils/format";
 import { PROJECT_STATUS_LABELS } from "@/lib/constants";
@@ -39,6 +39,24 @@ export default function ClientProjectDetail() {
 
   const project = data?.project;
 
+  const queryClient = useQueryClient();
+
+  const approveMutation = useMutation({
+    mutationFn: () => projectsApi.approve(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["client-projects", id] });
+    },
+  });
+
+  const handleApprove = () => {
+    import("react-native").then(({ Alert }) => {
+      Alert.alert("Approve Work", "Are you sure you want to approve this work? The final payout will be released to the creator.", [
+        { text: "Cancel", style: "cancel" },
+        { text: "Approve", onPress: () => approveMutation.mutate() }
+      ]);
+    });
+  };
+
   if (isLoading) {
     return (
       <SafeAreaView className="flex-1 bg-dark-900 items-center justify-center">
@@ -71,7 +89,12 @@ export default function ClientProjectDetail() {
           <Text className="text-text-primary text-xl">←</Text>
         </TouchableOpacity>
         <Text className="text-text-primary font-inter-semibold text-lg">Project Details</Text>
-        <View className="w-11" />
+        <TouchableOpacity 
+          className="w-10 h-10 rounded-full bg-dark-700 items-center justify-center border border-surface-border"
+          onPress={() => router.push(`/(client)/projects/${id}/chat`)}
+        >
+          <Text className="text-text-muted text-lg">💬</Text>
+        </TouchableOpacity>
       </View>
 
       <ScrollView className="flex-1 px-5 pt-6" contentContainerStyle={{ paddingBottom: 100, gap: 20 }}>
@@ -132,7 +155,7 @@ export default function ClientProjectDetail() {
             <Text className="text-text-muted font-inter text-sm text-center">
               Please complete your payment via QR to start this project.
             </Text>
-            <Button variant="primary" size="lg" fullWidth onPress={() => {}}>
+            <Button variant="primary" size="lg" fullWidth onPress={() => router.push(`/(client)/projects/${id}/payment`)}>
               View Payment QR
             </Button>
           </View>
@@ -144,7 +167,13 @@ export default function ClientProjectDetail() {
             <Text className="text-text-muted font-inter text-sm text-center">
               The creator has submitted the final work proofs. Please review and approve.
             </Text>
-            <Button variant="primary" size="lg" fullWidth onPress={() => {}}>
+            <Button 
+              variant="primary" 
+              size="lg" 
+              fullWidth 
+              loading={approveMutation.isPending}
+              onPress={handleApprove}
+            >
               Review & Approve Work
             </Button>
           </View>

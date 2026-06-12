@@ -19,26 +19,35 @@ export default function PublicVendorProfileScreen() {
   const { user } = useAuthStore();
   const isClient = user?.account_type === "client";
 
-  // Use dummy data since vendorsApi isn't fully implemented in the website MVP yet,
-  // but we architect it for Phase 2.
-  const vendor = {
-    id,
-    business_name: "CineGear Rentals",
-    city: "Mumbai",
-    rating: 4.8,
-    verified: true,
-    parichay_verified: true,
-    cover_image_url: null,
-    profile_image_url: null,
-    bio: "Premium cinema equipment rental house based in Andheri West.",
-  };
+  const { data, isLoading } = useQuery({
+    queryKey: ["vendor", id],
+    queryFn: () => vendorsApi.get(id as string),
+  });
 
-  const inventory = [
-    { id: "1", name: "Sony FX3 Cinema Camera", category: "Camera", daily_rate: 3500, available: true },
-    { id: "2", name: "ARRI Alexa Mini LF", category: "Camera", daily_rate: 25000, available: false },
-    { id: "3", name: "Aputure 1200d Pro", category: "Lighting", daily_rate: 4500, available: true },
-    { id: "4", name: "DJI Inspire 3", category: "Drone", daily_rate: 15000, available: true },
-  ];
+  const vendor = data?.vendor;
+  const inventory = data?.inventory ?? [];
+
+  if (isLoading) {
+    return (
+      <SafeAreaView className="flex-1 bg-dark-900 items-center justify-center">
+        <ActivityIndicator size="large" color="#00B894" />
+      </SafeAreaView>
+    );
+  }
+
+  if (!vendor) {
+    return (
+      <SafeAreaView className="flex-1 bg-dark-900 items-center justify-center">
+        <Text className="text-4xl mb-4">😕</Text>
+        <Text className="text-text-primary font-inter-bold text-xl text-center mb-6">
+          Vendor not found
+        </Text>
+        <Button variant="secondary" size="lg" onPress={() => router.back()}>
+          Go Back
+        </Button>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView className="flex-1 bg-dark-900" edges={["top"]}>

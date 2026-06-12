@@ -54,9 +54,38 @@ export default function ClientProfileScreen() {
           ))}
         </View>
 
-        <View className="px-5 mt-4">
-          <Button variant="danger" size="lg" fullWidth onPress={handleLogout}>
+        <View className="px-5 mt-4 gap-3">
+          <Button variant="outline" size="lg" fullWidth onPress={handleLogout}>
             Sign Out
+          </Button>
+          <Button 
+            variant="danger" 
+            size="lg" 
+            fullWidth 
+            onPress={() => {
+              Alert.alert(
+                "Delete Account",
+                "Are you absolutely sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.",
+                [
+                  { text: "Cancel", style: "cancel" },
+                  { 
+                    text: "Delete My Account", 
+                    style: "destructive", 
+                    onPress: async () => {
+                      try {
+                        const { authApi } = await import("@/api/auth");
+                        await authApi.deleteAccount();
+                        logout();
+                      } catch (e: any) {
+                        Alert.alert("Error", e.message || "Failed to delete account");
+                      }
+                    }
+                  },
+                ]
+              );
+            }}
+          >
+            Delete Account
           </Button>
         </View>
 

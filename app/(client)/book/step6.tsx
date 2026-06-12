@@ -62,7 +62,7 @@ export default function BookStep6() {
           <ReviewRow
             label="Event Type"
             value={getEventTypeLabel(store.eventType ?? "", store.customEventType)}
-            onEdit={() => router.push("/(client)/book/")}
+            onEdit={() => router.push("/(client)/book")}
           />
           <ReviewRow
             label="Setup Type"

@@ -41,7 +41,7 @@ export const BookingStepHeader: React.FC<BookingStepHeaderProps> = ({
           Step {step} of {totalSteps}
         </Text>
         <TouchableOpacity
-          onPress={() => router.push("/(client)/")}
+          onPress={() => router.replace("/(client)")}
           className="w-11 h-11 rounded-2xl bg-surface-elevated items-center justify-center"
           accessibilityLabel="Cancel booking"
         >

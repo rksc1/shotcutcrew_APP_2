@@ -16,13 +16,14 @@ import Animated, {
   interpolate,
   useAnimatedScrollHandler,
 } from "react-native-reanimated";
+import { Video, Package, ShieldCheck, type LucideIcon } from "lucide-react-native";
 import { Button } from "@/components/ui/Button";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 interface Slide {
   id: string;
-  emoji: string;
+  icon: LucideIcon;
   title: string;
   subtitle: string;
   accent: string;
@@ -31,23 +32,23 @@ interface Slide {
 const SLIDES: Slide[] = [
   {
     id: "1",
-    emoji: "🎬",
-    title: "India's Creative\nProduction Marketplace",
-    subtitle: "Book verified filmmakers, photographers, and production crews — all in one place.",
+    icon: Video,
+    title: "Assemble the\nPerfect Crew",
+    subtitle: "Book vetted directors, videographers, and production crew for your next project.",
     accent: "#6C5CE7",
   },
   {
     id: "2",
-    emoji: "✅",
-    title: "Parichay Verified\nCreators Only",
-    subtitle: "Every creator is background-checked and Parichay verified for your peace of mind.",
+    icon: Package,
+    title: "Vast Equipment\nCatalog",
+    subtitle: "Rent camera packages, lighting kits, and grip gear from verified studios.",
     accent: "#00B894",
   },
   {
     id: "3",
-    emoji: "💰",
-    title: "Transparent Pricing,\nSecure Payouts",
-    subtitle: "No hidden fees. Creators only get paid after you approve the delivered work.",
+    icon: ShieldCheck,
+    title: "Secure Escrow\n& Progress",
+    subtitle: "Milestone-based project management, timeline tracking, and secure payouts.",
     accent: "#FF7043",
   },
 ];
@@ -83,7 +84,9 @@ export default function OnboardingScreen() {
         style={[{ width: SCREEN_WIDTH }, animStyle]}
         className="px-8 items-center justify-center"
       >
-        <Text className="text-7xl mb-8">{item.emoji}</Text>
+        <View className="w-32 h-32 rounded-full border-2 border-surface-border bg-surface-elevated items-center justify-center mb-8">
+          <item.icon size={64} color={item.accent} strokeWidth={1.5} />
+        </View>
         <Text className="text-3xl font-inter-bold text-text-primary text-center leading-tight mb-4">
           {item.title}
         </Text>
@@ -106,9 +109,16 @@ export default function OnboardingScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-dark-900">
+      <View className="flex-row justify-between items-center px-6 pt-4">
+        <Text className="text-text-primary font-inter-bold text-xl tracking-tight">ShotcutCrew</Text>
+        <TouchableOpacity onPress={() => router.push("/(public)/login")} hitSlop={8}>
+          <Text className="text-text-muted font-inter-medium">Skip</Text>
+        </TouchableOpacity>
+      </View>
+
       <View className="flex-1 justify-center">
         <AnimatedFlatList
-          ref={flatListRef as React.RefObject<Animated.AnimatedRef<FlatList<Slide>>>}
+          ref={flatListRef as any}
           data={SLIDES}
           renderItem={renderSlide}
           keyExtractor={(item) => item.id}
@@ -121,12 +131,12 @@ export default function OnboardingScreen() {
             setCurrentIndex(index);
           }}
           scrollEventThrottle={16}
-          style={{ flexGrow: 0, height: 380 }}
+          style={{ flexGrow: 0, height: 400 }}
         />
       </View>
 
       {/* Dots */}
-      <View className="flex-row justify-center gap-2 mb-8">
+      <View className="flex-row justify-center gap-2 mb-6">
         {SLIDES.map((_, i) => {
           const dotStyle = useAnimatedStyle(() => {
             const inputRange = [
@@ -147,22 +157,17 @@ export default function OnboardingScreen() {
         })}
       </View>
 
+      {/* ShotcutCrew Assurance Banner (Legacy Inspiration) */}
+      <View className="flex-row items-center justify-center bg-brand-500/10 py-3 mx-6 rounded-xl mb-6 border border-brand-500/20">
+        <ShieldCheck size={18} color="#6C5CE7" strokeWidth={2.5} />
+        <Text className="text-brand-300 font-inter-bold text-sm ml-2">ShotcutCrew Crew Assurance Included</Text>
+      </View>
+
       {/* CTA */}
       <View className="px-6 pb-8 gap-3">
         <Button variant="primary" size="xl" fullWidth onPress={goNext}>
-          {currentIndex < SLIDES.length - 1 ? "Continue" : "Get Started"}
+          {currentIndex < SLIDES.length - 1 ? "Next" : "Get Started"}
         </Button>
-        <TouchableOpacity
-          onPress={() => router.push("/(public)/login")}
-          className="items-center py-3"
-          accessibilityLabel="Skip onboarding"
-          accessibilityRole="button"
-        >
-          <Text className="text-text-muted font-inter text-base">
-            Already have an account?{" "}
-            <Text className="text-brand-400 font-inter-medium">Sign in</Text>
-          </Text>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

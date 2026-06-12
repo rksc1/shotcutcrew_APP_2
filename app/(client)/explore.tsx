@@ -138,6 +138,7 @@ export default function ExploreScreen() {
             </View>
           )}
           keyExtractor={(item) => item.id}
+          // @ts-ignore
           estimatedItemSize={90}
           refreshControl={
             <RefreshControl refreshing={isRefetching} onRefresh={refetch} tintColor="#6C5CE7" />

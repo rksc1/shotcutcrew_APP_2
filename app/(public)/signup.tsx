@@ -38,7 +38,7 @@ export default function SignupScreen() {
   });
 
   const creatorForm = useForm<SignupCreatorFormData>({
-    resolver: zodResolver(signupCreatorSchema),
+    resolver: zodResolver(signupCreatorSchema) as any,
     defaultValues: {
       name: "", email: "", password: "",
       role: "", phone: "", city: "", creatorType: "freelancer", dayRate: 0,

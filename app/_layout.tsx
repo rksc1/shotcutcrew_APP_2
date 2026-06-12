@@ -38,7 +38,7 @@ function RootNavigator() {
     const inPublic = segments[0] === "(public)";
 
     if (!user && !inPublic) {
-      router.replace("/(public)/");
+      router.replace("/(public)");
       return;
     }
 
@@ -95,7 +95,7 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <QueryClientProvider client={queryClient}>
-          <StatusBar style="light" backgroundColor="#0A0A0F" />
+          <StatusBar style="light" />
           <RootNavigator />
         </QueryClientProvider>
       </SafeAreaProvider>

@@ -100,7 +100,7 @@ export default function BookStep7() {
             variant="secondary"
             size="lg"
             fullWidth
-            onPress={() => router.replace("/(client)/")}
+            onPress={() => router.replace("/(client)")}
           >
             Back to Home
           </Button>

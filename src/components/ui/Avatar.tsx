@@ -8,7 +8,7 @@ interface AvatarProps {
   name?: string | null;
   size?: number;
   className?: string;
-  style?: ViewStyle;
+  style?: any;
 }
 
 const GRADIENT_COLORS = [
