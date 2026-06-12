@@ -1,25 +1,66 @@
 {
   "expo": {
-    "name": "shotcutcrew-v2",
+    "name": "ShotcutCrew",
     "slug": "shotcutcrew-v2",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
+    "scheme": "shotcutcrew",
+    "splash": {
+      "image": "./assets/logo_nobg.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0A0A0F"
+    },
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.shotcutcrew.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "ShotcutCrew uses your camera to capture portfolio photos and work proofs.",
+        "NSPhotoLibraryUsageDescription": "ShotcutCrew accesses your photos to upload portfolio images and payment proofs.",
+        "NSPhotoLibraryAddUsageDescription": "ShotcutCrew saves media to your photo library.",
+        "NSMicrophoneUsageDescription": "ShotcutCrew uses your microphone to record audio for portfolio videos."
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0A0A0F"
       },
-      "predictiveBackGestureEnabled": false
+      "package": "com.shotcutcrew.app",
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "RECEIVE_BOOT_COMPLETED",
+        "VIBRATE"
+      ]
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#6C5CE7",
+          "defaultChannel": "default"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "ShotcutCrew accesses your photos to upload portfolio images and payment proofs."
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
     }
   }
 }
